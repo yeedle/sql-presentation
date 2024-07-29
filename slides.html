@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="keywords"
+      content="remark,remarkjs,markdown,slideshow,presentation"
+    />
+    <meta
+      name="description"
+      content="A simple, in-browser, markdown-driven slideshow tool."
+    />
+    <title>Remark</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: "Droid Serif";
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Yanone Kaffeesatz";
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 {
+        font-size: 3em;
+      }
+      .remark-slide-content h2 {
+        font-size: 2em;
+      }
+      .remark-slide-content h3 {
+        font-size: 1.6em;
+      }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p {
+        line-height: 1.25em;
+      }
+      .red {
+        color: #fa0000;
+      }
+      .large {
+        font-size: 2em;
+      }
+      a,
+      a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code,
+      .remark-inline-code {
+        font-family: "Ubuntu Mono";
+      }
+      .remark-code-line-highlighted {
+        background-color: #373832;
+      }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1,
+      .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top: 151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first,
+      #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+      .left-column h2:last-of-type,
+      .left-column h3:last-child {
+        color: #000;
+      }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+# The Art of SQL
+
+---
+## Re-Introduction to SQL
+---
+layout: false
+.left-column[
+  ## What is SQL?
+]
+.right-column[
+
+- __Structured Query Language__
+
+- It's declrative and not imperative (it focuses on describing the data, not the steps to get from A to B)
+
+- There's a query engine that executes the queries and figures out what the steps to get from A to B are.
+
+- Data is king, and SQL is the language of data.
+
+- SQL is one of the oldest languages that is still so widely used and actively developed. It stood the test of time.
+]
+---
+.left-column[
+  ## What is SQL?
+  ## Types of SQL
+]
+.right-column[
+- **DML** stands for Data Manipulation Language. It is used to modify the data in the database. `insert`, `update`, `delete`.
+
+- **DDL** stands for Data Definition Language. It is used to define the structure of the database. `create`, `alter`, `drop`.
+
+- **DCL** stands for Data Control Language. It is used to control the flow of data. `grant`, `revoke`.
+
+- **TCL** stands for Transaction Control Language. It is used to control the flow of transactions. `begin`, `commit`, `rollback`.
+
+- **QL** stands for Query Language. It is used to retrieve data from the database. `select`, `with` `where`, `order by`, `group by` etc.
+
+- **PL** stands for Procedural Language. It is used to write functions and triggers. `create function`, `create trigger`, `drop function`, `drop trigger`.
+
+]
+---
+template: inverse
+
+## ** Query Language **: `select`, `with` `where`, `order by`, `group by` etc.
+---
+.left-column[
+  ## `select` 
+]
+.right-column[
+- The simplest query is the `select` query. `select 1`.
+
+- You can add column names to the `select` query. `select column1, column2 from table`.
+
+- You can use `*` to select all columns. `select * from table_name`. But don't do that. It means "I don't know what I'm doing".
+    - What if the column names change? You are now loading different data than what you originally expected. Explicit column names expose this.
+    - You are probable loading more data than you need. Explicit column names limit the data you load.
+
+- Did you know that instead of `select * from table_name` you can simply write `table table_name`?
+
+]
+---
+.left-column[
+## `select` 
+]
+.right-column[
+- Computed values: you can also use functions and operators in the `select` query. 
+
+```sql
+select 
+    first_name || ' ' || last_name as full_name
+from table_name;
+
+select coalesce(full_name, 'User')
+from table;
+```
+
+- Every data type has functions and operators that you lets you process the data in countless ways.
+- Most common functions ones are 
+  - `to_char`, `to_date`, `to_timestamp`, `trim`, `round`, `date_trunc`, `ceil`, `floor`, `round`, `now`, `current_date`, `current_time`, `now`, `coalesce`, `nullif`
+  - special shoutout to `case when` for if statements in SQL
+most common operators are
+  - `+`, `-`, `*`, `/`, `%`, `||`,  `<>`, `<`, `>`, `<=`, `>=`, `like`, `not like`, `in`, `between`, `is null`, `is not null`
+]
+---
+.left-column[
+## `select` 
+]
+.right-column[
+- Window functions are special functions that can be used in the `select` query.
+- Unlike regular functions, window functions evaluate all rows, and not just the current row.
+
+
+```sql
+window_function(arg1, arg2,..) over (partition by partition_expression order by sort_expression)
+```
+- what are some common window functions?
+  - `count`, `sum`, `avg`, `min`, `max`, `row_number`, `rank`, `dense_rank`, `percent_rank`, `lag`, `lead`, `first_value`, `last_value`, `nth_value`
+]
+---
+.left-column[
+  ## `select` 
+  ## `from` 
+]
+.right-column[
+- After describing WHAT you want, you need to tell the query engine WHERE to get the data from.
+
+- You can use a table name to get data from a table. `select * from table_name`.
+
+- You can use a subquery to get data from a table. `select * from (select * from table_name)`
+
+- You can use a join to get data from multiple tables. `select * from table_name join table_name2 on table_name.id = table_name2.id`
+
+- Did you know? If the primary key and the foreign key are the same, you can use a simpler join syntax. `select * from table_name join table_name2 using(column_name)`
+  - For this reason, some people name primary keys as `table_id`. That way `user_id` is both the primary key and the foreign key.
+
+]
+---
+.left-column[
+  ## `select` 
+  ## `from`
+  ## `join`
+]
+.right-column[
+- One of the most powerful features of SQL is the ability to join tables together.
+
+- You can join tables using the `join` keyword. 
+
+- There are multiple types of joins:
+    - `inner join`: returns only the rows that have matching values in both tables.
+    - `left join`: returns all the rows from the left table and the matched rows from the right table.
+    - `right join`: returns all the rows from the right table and the matched rows from the left table.
+
+- we can also join on multiple conditions. For example, if we want to find all the users who have a first name of John and a last name of Smith, we can do `select * from sessions join users using(user_id) and users.first_name = 'John'`
+  - we don't want this in the where clause, because that would filter out all the sessions that don't have a user with a first name of John. We want to see all the sessions, but we only want to see the extra information in the users table where the first name is John.
+]
+---
+.left-column[
+  ## `select` 
+  ## `from`
+  ## `join`
+]
+.right-column[
+<img src="https://www.postgresqltutorial.com/wp-content/uploads/2018/12/PostgreSQL-Joins.png" width="600">
+]
+---
+.left-column[
+  ## `select` 
+  ## `from`
+  ## `join`
+]
+.right-column[
+- one thing to be awar of with joins is that you can get multiple rows if there's more than one match.
+- a helpful construct is `distinct on`. `select distinct on(column_name) column1, column2 from table_name`
+]
+---
+.left-column[
+  ## `select` 
+  ## `from`
+  ## `join`
+  ## `where`
+]
+.right-column[
+- where filters out results based on one or more conditions.
+- you can use `and` and `or` to combine conditions.
+- you can use `not` to negate a condition.
+- you can use `in` and `not in` to check if a value is in a list or a subquery.
+- `not exists` and `exists` are used to check if a subquery returns any rows (`not exists` is also called an anti-join).
+]
+---
+.left-column[
+  ## `select` 
+  ## `from`
+  ## `join`
+  ## `where`
+  ## `order by`
+]
+.right-column[
+- order by applies to your data once the query engine has finished finding the data.
+]
+---
+.left-column[
+  ## `select` 
+  ## `from`
+  ## `join`
+  ## `where`
+  ## `order by`
+  ## `group by`
+]
+.right-column[
+- `group by` groups the data by one or more columns.
+- since you are grouping, you can only `select the columns that are in the group by.
+- but that's not very usefule, is it? To the remainder of the columns, you can apply "aggregate functions".
+- common aggregate functions are `count`, `sum`, `avg`, `min`, `max`, `json_agg`, `array_agg`, `string_agg`, `bool_and`, `bool_or`
+- You can use aggregate functions without `group by` and then it will just return a single row with the aggregated values.
+- It's also common to use `distinct` with `group by` to remove duplicate rows.
+- `having` is used to filter out the groups. remember, `where` filters out the rows, and `having` filters out the groups.
+- you can use aggregate functions in `having`.
+]
+---
+template: inverse
+
+## CTEs and Subqueries
+---
+.left-column[
+  ## `with`
+]
+.right-column[
+- with is a way to create a temporary table.
+- you can use it to create a table that is only available for the duration of the query.
+- you can use it to create a table that has a name that is different from the table it is querying.
+
+```sql
+with cte_name as (
+    select column1, column2 from table_name where column1 = value
+)
+select * from table_name join cte_name using(column1);
+```
+]
+---
+.left-column[
+  ## `with`
+  ## `subquery`
+]
+.right-column[
+- a subquery is a query that is nested inside another query.
+- you can use a subquery to filter data.
+- you can use a subquery to get data from multiple tables.
+- you can use a subquery to get data from a table.
+
+```sql
+select * from table_name 
+    where column1 in (
+        select column1 
+        from table_name 
+        where column2 = value
+    );
+```
+
+```sql
+select * from table_name
+left join (
+    select column1, column2 from table_name where column1 = value   
+) as subquery using(column1)
+;
+```
+]
+---
+template: inverse
+
+## Views, Functions and Triggers
+---
+.left-column[
+  ## `view`
+]
+.right-column[
+- A view is a virtual table that is based on the result of a query.
+- You can create a view to hide the complexity of a query.
+- You can create a view to simplify the query.
+- You can create a view to provide a different name for the data.
+
+```sql
+create or replace view view_name as (
+    select column1, column2 from table_name where column1 = value
+);
+
+select * from view_name;
+```
+]
+---
+.left-column[
+  ## `view`
+]
+.right-column[
+- There's a special type of view called a materialized.
+- Instead of running the query every time, it runs once and stores the result.
+- This is a common thing in programminc called "caching".
+- The benefit is that it is wayyy faster than running a query
+  - Think of query that takes a few minutes to run, a materialized view can run in a few milliseconds.
+- The downside is that it is not always up to date. You need to refresh the materialized view to get the latest data.
+
+
+```sql
+create or replace materialized view view_name as (
+    select * from (
+        select column1, column2 from table_name where column1 = value
+    ) as subquery
+);
+
+select * from view_name;
+
+refresh materialized view view_name;
+```
+]
+---
+.left-column[
+  ## `view`
+  ## `functions`
+]
+.right-column[
+- There are a tone of built-in functions in SQL.
+- You can create your own functions.
+- Functions can be written in many languages. You can write them in SQL, a special language called PL/pgSQL, or even in Javascript!
+
+```sql
+create or replace function clear_table_name() 
+returns void as $$
+    truncate table_name;
+$$ langauge sql;
+```
+
+```sql
+create or replace function one() 
+    returns integer AS $$
+    select 42 as result;
+$$ langauge sql;
+```
+
+```sql
+create [or replace] function function_name(param_list)
+   returns return_type 
+  as
+$$
+declare 
+   -- variable declaration
+begin
+   -- logic
+end;
+$$ language plpgsql;
+```
+]
+---
+.left-column[
+ ## `view`
+ ## `functions`
+ ## `triggers`
+]
+.right-column[
+- A trigger lets you run a function when a certain event happens. (This is kind of like event handlers in Javascript.)
+- The different events are `before insert`, `before update`, `before delete`, `after insert`, `after update`, `after delete`, `instead of insert`, `instead of update`, `instead of delete`, `before truncate`, `after truncate`
+- A trigger function needs to return a `trigger` type.
+
+```sql
+create or replace function fn_trigger()
+returns trigger as 
+$$
+   -- function body
+   -- you can use old. and new. to get the old and new valeus 
+   -- on insert only new. will have values, on delete only old. will have values
+   -- on update you will have both old. and new.
+$$ 
+language plpgsql;
+
+create trigger trigger_name
+instead of insert or update or delete
+on table_name
+for each row 
+execute function fn_trigger;
+```
+]
+---
+template: inverse
+
+## Transactions
+---
+.left-column[
+## Transactions
+]
+.right-column[
+- Transactions are a way to group multiple queries together.
+- You can think of a transaction as a unit of work.
+- A transaction can be rolled back if there's an error.
+- Transactions are used to ensure that the data is consistent.
+
+
+```sql
+begin;
+insert into table_name (column1, column2) values (value1, value2);
+select id from table_name where column1 = value1;
+insert into other_table (column1, id_to_table_name) values (value1, id);
+commit;
+```
+]
+---
+template: inverse
+
+## Normalization
+---
+.left-column[
+    ## Normalization
+]
+.right-column[
+- Normalization is a way to organize data in a database.
+- Ideally there's a single source of truth for every piece of data in your database.
+- Normalization is a theory based on "Relational Algebra" which is the underlying theory of relational databases.
+- Pure normalization is usually too strict, so we need to apply common sense, but it's a good starting point.
+-- Normalization forms go all the way from first normal form to fifth normal form, but usually you only need to go up to third normal form.
+]
+---
+.left-column[
+## primary key
+]
+.right-column[
+- a key is an identifier for a row in a table.
+- a primary key is a single column that uniquely identifies a row.
+  - a primary key can be either one column that is unique (for example, in a table of states, the state code is the primary key),
+  - or a made up ID that is unique (for example, in a table of users, the user ID is the primary key).
+  - Some people like incrementing a sequence as the primary key (in postgresql, a special type of table called a sequence is used for this).
+  - others like something random like a UUID.
+  - A primary key can also be a composite of multiple columns (for example, in a table of users, the user's first name and last name can be the primary key).
+]
+---
+.left-column[
+## primary key
+## foreign key
+]
+.right-column[
+- a foreign key is a column in a table that references a primary key in another table.
+- the keys are linked together by a foreign key constraint.
+- a foreign key can't link to a non-existent primary key. This is called a foreign key constraint.
+- This constraint ensures that your data is always correct.
+]
+---
+.left-column[
+    ## 1NF
+]
+.right-column[
+Fist Normal Form (1NF) is a
+- Data in First Normal Form is when every column in a table has a single piece of data.
+- Each row has a primary key uniquely idetifying the row. Each column has a single piece of data.
+Instead of 
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*5IzcZ7zI4akepxF4Pt6m3w.png" style="width:100%;">
+Do this
+<img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*67BH2RjG4VZAn8sjnLOPrg.png" style="width:100%;">
+
+- Should we do this? Well, it depends. Will we ever have a need to query by individual columns? (for example, count how many people per zipcode)
+- If we do, we can do this, otherwise we don't need to.
+- Remember, it's always easier to go from single to composite than the other way around.
+]
+---
+.left-column[
+## 1NF
+## 2NF
+]
+.right-column[
+- Second Normal Form means that every single field in a row is dependent on the primary key.
+- This means that data that is not a part of the entity represented in the table needs to be stored in a separate table.
+- In the previous example, you can think of a city and state as not being part of the same entity.
+- Should we have a separate table for cities, and states? 
+- 99% of the time, we don't need to, because there's no other information that we need to store in the state table.
+- If you do have some state level information 
+  - let's say you're building an accounting app and there are different laws that apply to different states you'd want to associate that information with 
+    the state, in that case you'd want something to represent a state entity and a state table would be a good place to store that information.
+  - In the case of states, the state code (e.g. NY, NJ) would still be sufficient to identify the state,
+    so a table could still be too much, but if you want to apply constraints (for example, a person can only be in a certain subset of states), an
+    easy way to enforce this would be to have a state table and if a state is not in the state table, it will cause a foreign key constraint violation.
+]
+---
+.left-column[
+## 1NF
+## 2NF
+## 3NF
+]
+.right-column[
+- Third Normal Form takes 2NF to the next level. Not only does every field need to be dependent on the primary key, it needs to be directly dependent and not transitively.
+What this means is that 
+- In our previouse example, lets say we split out cities and states into separate table, and we want to add country. Country is dependent on state which is dependent on the city.
+- You'd want yet another table for country.
+]
+---
+.left-column[
+## `cascade`
+]
+.right-column[
+when you create a foreign key constraint, you can specify that it should cascade.
+- cascade means that when you delete a row in the parent table, the foreign key constraint will also delete the row in the child table.
+- cascade is the default, so you don't need to specify it.
+- if a foreign key is optional, you can specify that it doesn't cascade. in that case the foreign key will be set to null instead of deleting the row
+]
+---
+template: inverse
+
+## Constrains
+---
+.left-column[
+## Intro
+]
+.right-column[
+- Constraints are rules that you can put on your data to ensure that it is always valid.
+- Under the hood, the database creates an index and uses the index to enforce the constraint.
+- Whenever you insert invalid data, the database will throw an error
+]
+---
+.left-column[
+## Intro
+## Keys
+]
+.right-column[
+- Primary keys and Foreign Keys are constraints.
+- A primary key is a unique identifier for a row in a table. It's constrained to be unique (something that is not alread in that column).
+- A foreign key is a column in a table that references a primary key in another table. It is constrained to be something that exists in the referenced table.
+
+```sql
+create table table_name (
+    column1 integer primary key,
+    column2 integer not null,
+    column3 integer not null,
+    foreign key (column3) references other_table_name(column1)
+);
+```
+
+```sql
+alter table table_name
+    add constrain constraint_name foreign key (column3) 
+    references other_table_name(column1);
+```
+---
+.left-column[
+## Intro
+## Keys
+## Unique
+]
+.right-column[
+- A unique constraint is a constraint that ensures that the values in a column are unique.
+
+```sql
+alter table table_name
+    add constraint constraint_name unique (column1, column2);
+```
+]
+---
+.left-column[
+## Intro
+## Keys
+## Unique
+## Not Null
+]
+.right-column[
+- A not null constraint is a constraint that ensures that the values in a column are not null.
+
+```sql
+alter table table_name
+    alter column column_name set not null;
+```]
+---
+.left-column[
+## Intro
+## Keys
+## Unique
+## Not Null
+## Check
+]
+.right-column[
+- A check constraint is a constraint that ensures that the values in a column meet a certain condition.
+
+```sql
+alter table table_name 
+    add constraint constraint_name check (column_1 < column_2);
+```]
+---
+.left-column[
+## Intro
+## Keys
+## Unique
+## Not Null
+## Check
+## Exclusion
+]
+.right-column[
+- An exclusion constraint is an advanced constraint. Check is mostly used to check that a value is in a list of values, or that a simple condition is met.
+- Exclusion constraint is used when you want to check the inserted or updated value against the existing values in the database.
+
+
+```sql
+alter table table_name
+    add constraint constraint_name exclude using gist
+    (user_id with =, age with <>); -- exclude an age which doesn't already exist in the table, opposite of unique
+```]
+---
+.left-column[
+## Intro
+## Keys
+## Unique
+## Not Null
+## Check
+## Exclusion
+## Partial Constraints
+]
+.right-column[
+- you can add a where clause to a constraint to limit the constraint.
+
+```sql
+alter table table_name
+    add constraint constraint_name exclude using gist
+    (user_id with =, age with <>) where age > 18; -- if age is less than 18, it will not be excluded
+```]
+---
+template: inverse
+
+## Indexing
+---
+.left-column[
+  ## What is Indexing 
+]
+.right-column[
+- Indexing is what helps the query engine find the data you're looking for.
+
+- Books have table of contents. That's a type of index. Some books also have indexes for the words or concepts in the book.
+
+- When you search for something in the book, depending on what you're looking for, you'll use one of the indexes to find the data you need.
+
+- Without knowing it, you are already creating indexes on your data.
+
+- Primary Key and Unique both create indexes. Why? Because if you insert a value, the query engine needs to see if it already exists. It can sequentially scan the table to see if the value already exists, but 
+   that is slow. With an index, it can do a very fast lookup to determine if the value already exists.
+- But you can also create indexes on other columns. 
+
+]
+---
+.left-column[
+## What is Indexing 
+  ## Indexing Strategies
+
+]
+.right-column[
+- The most common indexing strategy is called the B-Tree. 
+    - The B-Tree is a balanced tree. 
+    - It is a tree that is balanced so that the depth of the tree is logarithmic in the number of records. 
+    - This means that the depth of the tree is proportional to the logarithm of the number of records. 
+- Two other common indexing strategies are the GIST and GIN.
+    - GIST stands for Generalized Search Tree. 
+    - GIST is very useful for range searches (for excample, finding all the records that have a date between two dates).
+- GIN stands for Generalized Inverted Index.
+    - instead of indexing full values, it indexes partial values.
+    - GIN is very useful for full text searches (for example, finding all the records that contain a certain word).
+]
+---
+name: last-page
+template: inverse
+
+## That's all folks (for now)!
+
+Slideshow created using [remark](http://github.com/gnab/remark).
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js"></script>
+    <script>
+      var slideshow = remark.create({
+        highlightStyle: "monokai",
+        highlightLanguage: "remark",
+        highlightLines: true,
+      });
+    </script>
+    <script>
+      (function () {
+        var ga = document.createElement("script");
+        ga.src = "https://ssl.google-analytics.com/ga.js";
+        var s = document.scripts[0];
+        s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>
